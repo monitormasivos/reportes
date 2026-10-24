@@ -9,1013 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&amp;display=swap" rel="stylesheet">
-<style>
-        :root {
-            --bg-dark: #040711;
-            --bg-canvas: #060a18;
-            --bg-card: rgba(12, 20, 44, 0.88);
-            --bg-card-alt: rgba(18, 30, 64, 0.6);
-            --bg-card-border: rgba(102, 255, 255, 0.22);
-            --magenta: #FF00A8;
-            --magenta-glow: rgba(255, 0, 168, 0.35);
-            --blue-royal: #0032A1;
-            --blue-vibrant: #1A52EE;
-            --cyan: #66FFFF;
-            --cyan-glow: rgba(102, 255, 255, 0.25);
-            --white: #FFFFFF;
-            --gray-text: #BAC7E3;
-            --gray-sub: #788BAE;
-            --accent-green: #10B981;
-            --accent-orange: #FF6B00;
-            --canvas-width: 800px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: #02040A;
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--white);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px 10px 40px 10px;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        .app-control-bar {
-            width: 100%;
-            max-width: var(--canvas-width);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(12, 20, 44, 0.95);
-            border: 1px solid var(--bg-card-border);
-            padding: 12px 18px;
-            border-radius: 14px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(102, 255, 255, 0.1);
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .control-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--cyan);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-        .control-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            background: linear-gradient(135deg, rgba(0, 50, 161, 0.85), rgba(26, 82, 238, 0.85));
-            color: var(--white);
-            border: 1px solid rgba(102, 255, 255, 0.35);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 11.5px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            min-height: 38px;
-        }
-
-        .btn-action:hover, .btn-action:active {
-            background: linear-gradient(135deg, var(--blue-vibrant), var(--magenta));
-            border-color: var(--cyan);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 18px rgba(255, 0, 168, 0.4);
-        }
-
-        .btn-action.btn-magenta {
-            background: linear-gradient(135deg, #A8006F, var(--magenta));
-        }
-
-        .btn-action.btn-cyan {
-            background: rgba(102, 255, 255, 0.12);
-            color: var(--cyan);
-            border-color: var(--cyan);
-        }
-
-        .btn-action.btn-cyan:hover, .btn-action.btn-cyan:active {
-            background: var(--cyan);
-            color: #03050C;
-        }
-
-        .canvas-wrapper {
-            width: 100%;
-            max-width: var(--canvas-width);
-            display: flex;
-            justify-content: center;
-        }
-
-        .infographic-canvas {
-            width: 100%;
-            max-width: var(--canvas-width);
-            background: radial-gradient(circle at 85% 5%, #1d0042 0%, #080d21 35%, #040713 100%);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 0, 168, 0.2), 0 0 20px rgba(102, 255, 255, 0.15);
-            display: flex;
-            flex-direction: column;
-            padding: 34px 30px 30px 30px;
-            border: 1px solid rgba(102, 255, 255, 0.28);
-            border-radius: 20px;
-            gap: 20px;
-        }
-
-        .glow-orb-1 {
-            position: absolute;
-            top: -120px;
-            right: -100px;
-            width: 550px;
-            height: 550px;
-            background: radial-gradient(circle, rgba(255, 0, 168, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .glow-orb-2 {
-            position: absolute;
-            top: 750px;
-            left: -180px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 50, 161, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .glow-orb-3 {
-            position: absolute;
-            bottom: -100px;
-            right: -100px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(102, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .infographic-header {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            border-bottom: 2px solid rgba(102, 255, 255, 0.25);
-            padding-bottom: 18px;
-        }
-
-        .brand-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            padding-right: 55px; /* Espacio garantizado para el logo fijo en la derecha */
-        }
-
-        .header-logo-anchored {
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 38px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(102, 255, 255, 0.4));
-            z-index: 10;
-        }
-
-        .brand-badge {
-            background: linear-gradient(135deg, var(--magenta), var(--blue-royal));
-            color: var(--white);
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 1.8px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(255, 0, 168, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .brand-sub {
-            color: var(--cyan);
-            font-size: 10.5px;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-        }
-
-        .campaign-banner {
-            background: linear-gradient(135deg, rgba(12, 20, 44, 0.95), rgba(26, 82, 238, 0.25));
-            border: 1.5px solid var(--bg-card-border);
-            border-left: 5px solid var(--magenta);
-            border-radius: 14px;
-            padding: 18px 20px;
-            box-shadow: inset 0 0 20px rgba(255, 0, 168, 0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .campaign-banner::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0;
-            width: 140px; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(102, 255, 255, 0.08));
-            pointer-events: none;
-        }
-
-        .banner-label {
-            font-size: 10.5px;
-            font-weight: 800;
-            color: var(--cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .campaign-title-text {
-            font-size: clamp(18px, 4.5vw, 22px);
-            font-weight: 900;
-            line-height: 1.25;
-            text-transform: uppercase;
-            letter-spacing: -0.3px;
-            color: var(--white);
-        }
-
-        .meta-pills-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .meta-pill {
-            background: rgba(12, 20, 44, 0.75);
-            border: 1px solid rgba(102, 255, 255, 0.18);
-            border-radius: 10px;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: var(--gray-text);
-        }
-
-        .meta-pill i {
-            color: var(--cyan);
-            flex-shrink: 0;
-        }
-
-        .meta-pill strong {
-            color: var(--white);
-            font-weight: 700;
-        }
-
-        .kpi-section {
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-header-sm {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .section-title-text {
-            font-size: 12.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--cyan);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .kpi-grid-2x2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-        }
-
-        .kpi-card-v2 {
-            background: var(--bg-card);
-            border: 1px solid var(--bg-card-border);
-            border-radius: 16px;
-            padding: 18px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 135px;
-            transition: transform 0.25s ease;
-        }
-
-        .kpi-card-v2::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--blue-royal), var(--cyan));
-        }
-
-        .kpi-card-v2.featured {
-            background: linear-gradient(145deg, rgba(12, 20, 44, 0.95), rgba(255, 0, 168, 0.15));
-            border-color: rgba(255, 0, 168, 0.4);
-            box-shadow: 0 0 20px rgba(255, 0, 168, 0.15);
-        }
-
-        .kpi-card-v2.featured::before {
-            background: linear-gradient(90deg, var(--magenta), var(--cyan));
-        }
-
-        .kpi-header-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .kpi-title-lbl {
-            font-size: 10.5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--gray-sub);
-        }
-
-        .kpi-icon-wrapper {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(102, 255, 255, 0.1);
-            color: var(--cyan);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .kpi-card-v2.featured .kpi-icon-wrapper {
-            background: rgba(255, 0, 168, 0.2);
-            color: var(--magenta);
-        }
-
-        .kpi-main-val {
-            font-size: clamp(26px, 6vw, 32px);
-            font-weight: 900;
-            line-height: 1.05;
-            color: var(--white);
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .kpi-card-v2.featured .kpi-main-val {
-            color: var(--cyan);
-            text-shadow: 0 0 16px rgba(102, 255, 255, 0.4);
-        }
-
-        .kpi-sub-detail {
-            font-size: 10.5px;
-            color: var(--gray-text);
-            line-height: 1.35;
-        }
-
-        .kpi-sub-detail strong {
-            color: var(--magenta);
-        }
-
-        .section-card {
-            position: relative;
-            z-index: 2;
-            background: var(--bg-card);
-            border: 1px solid var(--bg-card-border);
-            border-radius: 18px;
-            padding: 20px;
-            backdrop-filter: blur(12px);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .card-title-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 12px;
-        }
-
-        .card-header-icon {
-            background: rgba(255, 0, 168, 0.15);
-            border: 1px solid var(--magenta);
-            color: var(--magenta);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .card-header-icon.cyan-theme {
-            background: rgba(102, 255, 255, 0.15);
-            border-color: var(--cyan);
-            color: var(--cyan);
-        }
-
-        .card-title-main {
-            font-size: 15px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--white);
-        }
-
-        .card-title-sub {
-            font-size: 11px;
-            color: var(--gray-sub);
-        }
-
-        .operators-grid-compact {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .operator-row {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .operator-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12.5px;
-            font-weight: 700;
-            gap: 8px;
-        }
-
-        .operator-brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .op-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .consumo-dot { background-color: var(--magenta); box-shadow: 0 0 8px var(--magenta); }
-        .nacional-dot { background-color: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-        .plana-dot { background-color: var(--blue-royal); box-shadow: 0 0 8px var(--blue-vibrant); }
-
-        .operator-stats-text {
-            color: var(--cyan);
-            white-space: nowrap;
-        }
-
-        .progress-track-v2 {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill-v2 {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease-in-out;
-        }
-
-        .consumo-fill { background: linear-gradient(90deg, #A8006F, var(--magenta)); }
-        .nacional-fill { background: linear-gradient(90deg, #00A9E0, var(--cyan)); }
-        .plana-fill { background: linear-gradient(90deg, #0032A1, var(--blue-vibrant)); }
-
-        .donut-analysis-block {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .donut-container-v2 {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            flex-shrink: 0;
-        }
-
-        .donut-svg-v2 {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .donut-circle-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 5;
-        }
-        
-        .donut-circle-1 { fill: none; stroke: var(--cyan); stroke-width: 5; stroke-linecap: round; transition: all 0.5s ease; }
-        .donut-circle-2 { fill: none; stroke: var(--magenta); stroke-width: 5; stroke-linecap: round; transition: all 0.5s ease; }
-        .donut-circle-3 { fill: none; stroke: var(--blue-vibrant); stroke-width: 5; stroke-linecap: round; transition: all 0.5s ease; }
-
-        .donut-center-info {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .donut-center-info .total-num {
-            font-size: 13.5px;
-            font-weight: 900;
-            color: var(--white);
-            line-height: 1.2;
-        }
-
-        .donut-center-info .total-lbl {
-            font-size: 8.5px;
-            color: var(--gray-sub);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-
-        .donut-text-summary {
-            font-size: 11.5px;
-            color: var(--gray-text);
-            line-height: 1.45;
-        }
-
-        .donut-text-summary strong {
-            color: var(--cyan);
-        }
-
-        .storytelling-panel {
-            position: relative;
-            z-index: 2;
-            background: linear-gradient(180deg, rgba(12, 20, 44, 0.95) 0%, rgba(6, 10, 24, 0.98) 100%);
-            border: 1.5px solid var(--cyan);
-            box-shadow: 0 0 25px rgba(102, 255, 255, 0.15);
-            border-radius: 18px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .story-header-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .story-title-main {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--cyan);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .story-badge-pill {
-            background: var(--magenta);
-            color: var(--white);
-            font-size: 9px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .story-insights-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .story-insight-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 4px solid var(--magenta);
-            border-radius: 0 12px 12px 0;
-            padding: 12px 14px;
-        }
-
-        .story-insight-item:nth-child(2) {
-            border-left-color: var(--cyan);
-        }
-
-        .story-item-head {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .story-item-body {
-            font-size: 11px;
-            color: var(--gray-text);
-            line-height: 1.45;
-        }
-
-        .infographic-footer {
-            position: relative;
-            z-index: 2;
-            margin-top: auto;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            font-size: 10px;
-            color: var(--gray-sub);
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .footer-credits {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            max-width: 620px;
-        }
-
-        .footer-credit-line {
-            line-height: 1.4;
-            color: var(--gray-text);
-            font-size: 9.5px;
-        }
-
-        .footer-credit-line strong {
-            color: var(--cyan);
-            font-weight: 700;
-        }
-
-        .footer-brand-tag {
-            color: var(--cyan);
-            font-weight: 800;
-            font-size: 11.5px;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-
-        /* Modal Sub-navigation Tabs */
-        .modal-tabs {
-            display: flex;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            padding-bottom: 10px;
-            margin-bottom: 16px;
-        }
-
-        .modal-tab-btn {
-            background: rgba(12, 20, 44, 0.8);
-            border: 1px solid rgba(102, 255, 255, 0.2);
-            color: var(--gray-text);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .modal-tab-btn.active {
-            background: linear-gradient(135deg, var(--blue-royal), var(--blue-vibrant));
-            color: var(--white);
-            border-color: var(--cyan);
-            box-shadow: 0 0 12px rgba(102, 255, 255, 0.2);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .plain-text-hint {
-            background: rgba(102, 255, 255, 0.06);
-            border: 1px solid rgba(102, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 10.5px;
-            color: var(--gray-text);
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .plain-text-hint strong {
-            color: var(--cyan);
-        }
-
-        @media (max-width: 650px) {
-            body {
-                padding: 10px 6px 30px 6px;
-            }
-
-            .app-control-bar {
-                padding: 10px 14px;
-                border-radius: 12px;
-                gap: 10px;
-            }
-
-            .control-title {
-                font-size: 11.5px;
-            }
-
-            .control-actions {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-
-            .btn-action {
-                font-size: 10.5px;
-                padding: 6px 10px;
-                min-height: 36px;
-            }
-
-            .btn-action.btn-magenta, .btn-action.btn-cyan {
-                width: 100%;
-            }
-
-            .infographic-canvas {
-                padding: 22px 16px 20px 16px;
-                border-radius: 14px;
-                gap: 16px;
-            }
-
-            .brand-row {
-                padding-right: 48px;
-            }
-
-            .header-logo-anchored {
-                height: 32px;
-                top: 0;
-                right: 0;
-            }
-
-            .meta-pills-row {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .kpi-grid-2x2 {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .kpi-card-v2 {
-                min-height: auto;
-                padding: 14px 16px;
-            }
-
-            .donut-analysis-block {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 14px;
-            }
-
-            .donut-container-v2 {
-                align-self: center;
-            }
-
-            .story-header-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .infographic-footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .infographic-footer > div:last-child {
-                text-align: left !important;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .control-actions {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(2, 4, 10, 0.88);
-            backdrop-filter: blur(10px);
-            z-index: 999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: var(--bg-dark);
-            border: 1px solid var(--cyan);
-            box-shadow: 0 0 35px rgba(102, 255, 255, 0.25);
-            border-radius: 16px;
-            padding: 22px;
-            width: 100%;
-            max-width: 620px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 12px;
-            margin-bottom: 14px;
-        }
-
-        .modal-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--cyan);
-            text-transform: uppercase;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--gray-text);
-            cursor: pointer;
-            font-size: 22px;
-            line-height: 1;
-            padding: 4px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        @media (max-width: 480px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-group.full {
-            grid-column: span 1;
-        }
-
-        @media (min-width: 481px) {
-            .form-group.full {
-                grid-column: span 2;
-            }
-        }
-
-        .form-label {
-            font-size: 10.5px;
-            font-weight: 700;
-            color: var(--gray-sub);
-            text-transform: uppercase;
-        }
-
-        .form-input {
-            background: rgba(12, 20, 44, 0.85);
-            border: 1px solid var(--bg-card-border);
-            border-radius: 8px;
-            padding: 8px 12px;
-            color: var(--white);
-            font-family: inherit;
-            font-size: 12px;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--cyan);
-            box-shadow: 0 0 10px rgba(102, 255, 255, 0.3);
-        }
-
-        .toast-notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            left: 20px;
-            max-width: 400px;
-            margin-left: auto;
-            background: var(--magenta);
-            color: var(--white);
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 10px 25px rgba(255, 0, 168, 0.5);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .toast-notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        @media print {
-            .app-control-bar, .modal-overlay, .toast-notification {
-                display: none !important;
-            }
-            body {
-                background: #040711 !important;
-                padding: 0 !important;
-            }
-            .infographic-canvas {
-                box-shadow: none !important;
-                border: none !important;
-            }
-        }
-    </style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body style="background:#02040A; display:flex; justify-content:center; padding:20px 10px;">
     <div class="infographic-canvas" id="infographicCanvas">
@@ -1027,7 +21,7 @@
             <!-- Header Section (Logo fijado en la esquina superior derecha del reporte para cualquier dispositivo) -->
             <header class="infographic-header" style="position: relative;">
                 <!-- Logo iPulso fijado en la parte superior derecha independiente -->
-                <img id="header-logo-img" class="header-logo-anchored" src="https://i.ibb.co/qMLHwWXK/logo-ipulso-2.png" alt="logo ipulso 2" border="0">
+                <img id="header-logo-img" class="header-logo-anchored" src="img/logo-ipulso.png" alt="Logo IPulso" border="0">
 
                 <div class="brand-row">
                     <span class="brand-badge" id="val-badge">
@@ -1076,27 +70,55 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="clock" aria-hidden="true" size="18" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
                             </div>
                         </div>
-                        <div class="kpi-main-val" id="val-total-min">8.30M</div>
+                        <div class="kpi-main-val" id="val-total-min">8.31M</div>
                         <div class="kpi-sub-detail">
-                            <span><strong id="sub-min-exact">8,301,990</strong> minutos procesados</span>
+                            <span><strong id="sub-min-exact">8,306,990</strong> minutos procesados</span>
                         </div>
                     </div>
 
-                    <!-- KPI 2: Clientes -->
+                    <!-- KPI 2: Llamadas Realizadas -->
                     <div class="kpi-card-v2">
                         <div class="kpi-header-row">
-                            <span class="kpi-title-lbl">Clientes Activos</span>
+                            <span class="kpi-title-lbl">Llamadas Realizadas</span>
                             <div class="kpi-icon-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" size="18" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" aria-hidden="true" size="18" class="lucide lucide-phone-call"><path d="M13 2a9 9 0 0 1 9 9"></path><path d="M13 6a5 5 0 0 1 5 5"></path><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
                             </div>
                         </div>
                         <div class="kpi-main-val" id="val-total-cli">192.3K</div>
                         <div class="kpi-sub-detail">
-                            <span style="color: var(--cyan); font-weight: 700;"><span id="sub-cli-exact">192,334</span></span> usuarios que llaman
+                            <span style="color: var(--cyan); font-weight: 700;"><span id="sub-cli-exact">192,334</span></span> llamadas efectuadas
                         </div>
                     </div>
 
-                    <!-- KPI 3: Mes Pico -->
+                    <!-- KPI 3: Cartera de Clientes -->
+                    <div class="kpi-card-v2">
+                        <div class="kpi-header-row">
+                            <span class="kpi-title-lbl">Cartera de clientes</span>
+                            <div class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" size="18" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                            </div>
+                        </div>
+                        <div class="kpi-main-val" id="val-portfolio-cli">64.4K</div>
+                        <div class="kpi-sub-detail">
+                            <span style="color: var(--cyan); font-weight: 700;"><span id="sub-portfolio-exact">64,353</span></span> clientes/suscriptores
+                        </div>
+                    </div>
+
+                    <!-- KPI 4: Cartera Activa con Tráfico -->
+                    <div class="kpi-card-v2 featured">
+                        <div class="kpi-header-row">
+                            <span class="kpi-title-lbl" style="color: var(--cyan);">Cartera activa</span>
+                            <div class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-check" aria-hidden="true" size="18" class="lucide lucide-user-check"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                            </div>
+                        </div>
+                        <div class="kpi-main-val"><span id="val-active-portfolio-pct">25.9</span>%</div>
+                        <div class="kpi-sub-detail">
+                            <span style="color: var(--cyan); font-weight: 700;"><span id="sub-active-portfolio-exact">16,659</span></span> cartera que presenta tráfico
+                        </div>
+                    </div>
+
+                    <!-- KPI 5: Mes Pico -->
                     <div class="kpi-card-v2">
                         <div class="kpi-header-row">
                             <span class="kpi-title-lbl">Tráfico Máximo (Mes)</span>
@@ -1120,7 +142,7 @@
                         </div>
                         <div class="kpi-main-val"><span id="val-plan-pct">64.4</span>%</div>
                         <div class="kpi-sub-detail">
-                            <strong style="color: var(--cyan);">Líder en uso</strong> con <span id="val-plan-min-pct">60.1</span>% del tráfico total
+                            <strong style="color: var(--cyan);">Líder en uso</strong> con <span id="val-plan-min-pct">60.0</span>% del tráfico total
                         </div>
                     </div>
                 </div>
@@ -1139,18 +161,29 @@
                         </div>
                     </div>
 
-                    <!-- Promedio de Tráfico Mensual (Cálculo Automático) -->
-                    <div style="background: rgba(12, 20, 44, 0.95); border: 1.5px solid var(--accent-green); border-radius: 12px; padding: 6px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calculator" aria-hidden="true" size="16" style="color: var(--accent-green);" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
-                        <div>
-                            <div style="font-size: 9.5px; color: var(--gray-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Promedio Tráfico Mensual</div>
-                            <div style="font-size: 13.5px; font-weight: 900; color: var(--accent-green);" id="val-monthly-avg">1.04M min <span style="font-size: 10px; font-weight: 500; color: var(--gray-sub);">(1,037,749)</span></div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <!-- Promedio de Tráfico Mensual (Cálculo Automático) -->
+                        <div style="background: rgba(12, 20, 44, 0.95); border: 1.5px solid var(--accent-green); border-radius: 12px; padding: 6px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calculator" aria-hidden="true" size="16" style="color: var(--accent-green);" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+                            <div>
+                                <div style="font-size: 9.5px; color: var(--gray-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Promedio Tráfico Mensual</div>
+                                <div style="font-size: 13.5px; font-weight: 900; color: var(--accent-green);" id="val-monthly-avg">1.04M min <span style="font-size: 11px; font-weight: 600; opacity: 0.85; margin-left: 3px;">(1.037.749)</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Promedio Min/Cliente (Cálculo Automático) -->
+                        <div style="background: rgba(12, 20, 44, 0.95); border: 1.5px solid var(--cyan); border-radius: 12px; padding: 6px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 0 16px rgba(102, 255, 255, 0.2);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" size="16" style="color: var(--cyan);" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                            <div>
+                                <div style="font-size: 9.5px; color: var(--gray-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Prom. Min/Cliente</div>
+                                <div style="font-size: 13.5px; font-weight: 900; color: var(--cyan);" id="val-monthly-min-cli">59.4 min/cli <span style="font-size: 11px; font-weight: 600; opacity: 0.85; margin-left: 3px;">(59)</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div style="position: relative; width: 100%; overflow-x: auto; padding: 10px 0;">
-                    <svg id="monthlyLineChartSvg" viewBox="0 0 740 220" style="width: 100%; height: auto; min-width: 540px; display: block;">
+                    <svg id="monthlyLineChartSvg" viewBox="0 0 740 230" style="width: 100%; height: auto; min-width: 540px; display: block;">
                 <defs>
                     <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#66FFFF" stop-opacity="0.25"></stop>
@@ -1168,50 +201,58 @@
                 
                     <line x1="45" y1="38" x2="695" y2="38" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
                 
-                    <line x1="45" y1="84.66666666666666" x2="695" y2="84.66666666666666" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
+                    <line x1="45" y1="86" x2="695" y2="86" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
                 
-                    <line x1="45" y1="131.33333333333331" x2="695" y2="131.33333333333331" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
+                    <line x1="45" y1="134" x2="695" y2="134" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
                 
-                    <line x1="45" y1="178" x2="695" y2="178" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
+                    <line x1="45" y1="182" x2="695" y2="182" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"></line>
                 
 
                 <!-- X Axis Line -->
-                <line x1="45" y1="178" x2="695" y2="178" stroke="rgba(102, 255, 255, 0.25)" stroke-width="1.5"></line>
+                <line x1="45" y1="182" x2="695" y2="182" stroke="rgba(102, 255, 255, 0.25)" stroke-width="1.5"></line>
 
                 <!-- Area Fill -->
-                <path d="M 45 178 L 45 107.06498030314648 L 137.85714285714286 38 L 230.71428571428572 89.53815332125329 L 323.57142857142856 82.87618338223196 L 416.42857142857144 54.10781180727351 L 509.28571428571433 76.13818180141028 L 602.1428571428571 156.69233416794415 L 695 149.5038733590039 L 695 178 Z" fill="url(#chartAreaGrad)"></path>
+                <path d="M 45 182 L 45 109.03826545466495 L 137.85714285714286 38 L 230.71428571428572 91.01067198757481 L 323.57142857142856 84.15836005029573 L 416.42857142857144 54.56803500176704 L 509.28571428571433 77.22784413859343 L 602.1428571428571 160.0835437155997 L 695 152.6896983121183 L 695 182 Z" fill="url(#chartAreaGrad)"></path>
 
                 <!-- Main Line -->
-                <path d="M 45 107.06498030314648 L 137.85714285714286 38 L 230.71428571428572 89.53815332125329 L 323.57142857142856 82.87618338223196 L 416.42857142857144 54.10781180727351 L 509.28571428571433 76.13818180141028 L 602.1428571428571 156.69233416794415 L 695 149.5038733590039" fill="none" stroke="url(#chartLineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M 45 109.03826545466495 L 137.85714285714286 38 L 230.71428571428572 91.01067198757481 L 323.57142857142856 84.15836005029573 L 416.42857142857144 54.56803500176704 L 509.28571428571433 77.22784413859343 L 602.1428571428571 160.0835437155997 L 695 152.6896983121183" fill="none" stroke="url(#chartLineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
 
                 <!-- Promedio Reference Line -->
-                <line x1="45" y1="94.24018976778295" x2="695" y2="94.24018976778295" stroke="#10B981" stroke-dasharray="4 3" stroke-width="1.8"></line>
-                <rect x="605" y="80.24018976778295" width="90" height="15" rx="4" fill="rgba(6, 20, 18, 0.9)" stroke="#10B981" stroke-width="1"></rect>
-                <text x="690" y="91.24018976778295" fill="#10B981" font-size="9.5" font-weight="800" text-anchor="end" font-family="Montserrat">Prom: 1.04M</text>
+                <line x1="45" y1="95.84705233257674" x2="695" y2="95.84705233257674" stroke="#10B981" stroke-dasharray="4 3" stroke-width="1.8"></line>
+                <rect x="605" y="81.84705233257674" width="90" height="15" rx="4" fill="rgba(6, 20, 18, 0.9)" stroke="#10B981" stroke-width="1"></rect>
+                <text x="690" y="92.84705233257674" fill="#10B981" font-size="9.5" font-weight="800" text-anchor="end" font-family="Montserrat">Prom: 1.04M</text>
 
                 <!-- Points and text -->
                 
                     <!-- Vertical guide line -->
-                    <line x1="45" y1="107.06498030314648" x2="45" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="45" y1="109.03826545466495" x2="45" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="45" y="97.06498030314648" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="45" y="99.03826545466495" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         878.9K
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="45" cy="107.06498030314648" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="45" cy="107.06498030314648" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="45" cy="109.03826545466495" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="45" cy="109.03826545466495" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="22" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="45" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            53.7 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="45" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="45" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         Ene
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="137.85714285714286" y1="38" x2="137.85714285714286" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="137.85714285714286" y1="38" x2="137.85714285714286" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
+                    <!-- Traffic Min Value Label (Above Point) -->
                     <text x="137.85714285714286" y="28" fill="#FF00A8" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         1.73M
                     </text>
@@ -1220,110 +261,166 @@
                     <circle cx="137.85714285714286" cy="38" r="6" fill="#040711" stroke="#FF00A8" stroke-width="2.5"></circle>
                     <circle cx="137.85714285714286" cy="38" r="4" fill="#FF00A8" opacity="0.8"></circle>
 
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="114.85714285714286" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="137.85714285714286" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            84.9 m/c
+                        </text>
+                    
+
                     <!-- X-Axis Month Label -->
-                    <text x="137.85714285714286" y="206" fill="#FF00A8" font-size="11" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <text x="137.85714285714286" y="223" fill="#FF00A8" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         Feb
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="230.71428571428572" y1="89.53815332125329" x2="230.71428571428572" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="230.71428571428572" y1="91.01067198757481" x2="230.71428571428572" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="230.71428571428572" y="79.53815332125329" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="230.71428571428572" y="81.01067198757481" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         1.10M
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="230.71428571428572" cy="89.53815332125329" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="230.71428571428572" cy="89.53815332125329" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="230.71428571428572" cy="91.01067198757481" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="230.71428571428572" cy="91.01067198757481" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="207.71428571428572" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="230.71428571428572" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            61.3 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="230.71428571428572" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="230.71428571428572" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         Mar
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="323.57142857142856" y1="82.87618338223196" x2="323.57142857142856" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="323.57142857142856" y1="84.15836005029573" x2="323.57142857142856" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="323.57142857142856" y="72.87618338223196" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="323.57142857142856" y="74.15836005029573" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         1.18M
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="323.57142857142856" cy="82.87618338223196" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="323.57142857142856" cy="82.87618338223196" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="323.57142857142856" cy="84.15836005029573" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="323.57142857142856" cy="84.15836005029573" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="300.57142857142856" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="323.57142857142856" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            61.8 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="323.57142857142856" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="323.57142857142856" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         Abr
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="416.42857142857144" y1="54.10781180727351" x2="416.42857142857144" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="416.42857142857144" y1="54.56803500176704" x2="416.42857142857144" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="416.42857142857144" y="44.10781180727351" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="416.42857142857144" y="44.56803500176704" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         1.53M
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="416.42857142857144" cy="54.10781180727351" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="416.42857142857144" cy="54.10781180727351" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="416.42857142857144" cy="54.56803500176704" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="416.42857142857144" cy="54.56803500176704" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="393.42857142857144" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="416.42857142857144" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            74.2 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="416.42857142857144" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="416.42857142857144" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         May
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="509.28571428571433" y1="76.13818180141028" x2="509.28571428571433" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="509.28571428571433" y1="77.22784413859343" x2="509.28571428571433" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="509.28571428571433" y="66.13818180141028" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="509.28571428571433" y="67.22784413859343" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         1.26M
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="509.28571428571433" cy="76.13818180141028" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="509.28571428571433" cy="76.13818180141028" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="509.28571428571433" cy="77.22784413859343" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="509.28571428571433" cy="77.22784413859343" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="486.28571428571433" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="509.28571428571433" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            61.7 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="509.28571428571433" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="509.28571428571433" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         Jun
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="602.1428571428571" y1="156.69233416794415" x2="602.1428571428571" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="602.1428571428571" y1="160.0835437155997" x2="602.1428571428571" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="602.1428571428571" y="146.69233416794415" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="602.1428571428571" y="150.0835437155997" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         264.0K
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="602.1428571428571" cy="156.69233416794415" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="602.1428571428571" cy="156.69233416794415" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="602.1428571428571" cy="160.0835437155997" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="602.1428571428571" cy="160.0835437155997" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="579.1428571428571" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="602.1428571428571" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            21.9 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="602.1428571428571" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="602.1428571428571" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         Jul
                     </text>
                 
                     <!-- Vertical guide line -->
-                    <line x1="695" y1="149.5038733590039" x2="695" y2="178" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
+                    <line x1="695" y1="152.6896983121183" x2="695" y2="182" stroke="rgba(102, 255, 255, 0.12)" stroke-dasharray="2 2"></line>
 
-                    <!-- Value Label -->
-                    <text x="695" y="139.5038733590039" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                    <!-- Traffic Min Value Label (Above Point) -->
+                    <text x="695" y="142.6896983121183" fill="#66FFFF" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
                         353.1K
                     </text>
 
                     <!-- Point Circle -->
-                    <circle cx="695" cy="149.5038733590039" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
-                    <circle cx="695" cy="149.5038733590039" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+                    <circle cx="695" cy="152.6896983121183" r="4.5" fill="#040711" stroke="#66FFFF" stroke-width="2.5"></circle>
+                    <circle cx="695" cy="152.6896983121183" r="2.5" fill="#66FFFF" opacity="0.8"></circle>
+
+                    <!-- Min/Cliente Pill Label (Below X axis line) -->
+                    
+                        <rect x="672" y="187" width="46" height="13" rx="3" fill="rgba(12, 20, 44, 0.9)" stroke="rgba(102, 255, 255, 0.3)" stroke-width="0.8"></rect>
+                        <text x="695" y="196.5" fill="#66FFFF" font-size="8.5" font-weight="800" text-anchor="middle" font-family="Montserrat">
+                            55.7 m/c
+                        </text>
+                    
 
                     <!-- X-Axis Month Label -->
-                    <text x="695" y="206" fill="#BAC7E3" font-size="11" font-weight="600" text-anchor="middle" font-family="Montserrat">
+                    <text x="695" y="223" fill="#BAC7E3" font-size="10.5" font-weight="600" text-anchor="middle" font-family="Montserrat">
                         Ago
                     </text>
                 
@@ -1331,14 +428,78 @@
                 </div>
             </section>
 
+            <!-- Sección 2: Distribución de Cartera por Planes (Pictogramas de Personas) -->
+            <section class="section-card">
+                <div class="card-title-row">
+                    <div class="card-header-icon" style="background: rgba(255, 0, 168, 0.15); color: var(--magenta);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" size="20" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div>
+                        <h3 class="card-title-main">Distribución de Cartera por Planes</h3>
+                        <p class="card-title-sub">Distribución de cuentas y suscriptores representada mediante pictogramas</p>
+                    </div>
+                </div>
+
+                <div class="operators-grid-compact">
+                    <!-- Plan x Consumo -->
+                    <div class="operator-row">
+                        <div class="operator-meta">
+                            <div class="operator-brand">
+                                <div class="op-dot consumo-dot"></div>
+                                <span>Plan x Consumo Telefonía IP</span>
+                            </div>
+                            <div class="operator-stats-text">
+                                <span id="cart-consumo-cnt">43,833</span> cuentas 
+                                <span id="cart-consumo-pct" style="color: var(--magenta); font-weight: 800;">(68.1%)</span>
+                            </div>
+                        </div>
+                        <!-- Pictograma de Personas -->
+                        <div class="pictogram-container" id="picto-consumo"><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-consumo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span></div>
+                    </div>
+
+                    <!-- Plan Nacional -->
+                    <div class="operator-row">
+                        <div class="operator-meta">
+                            <div class="operator-brand">
+                                <div class="op-dot nacional-dot"></div>
+                                <span>Plan Nacional Telefonía IP</span>
+                            </div>
+                            <div class="operator-stats-text">
+                                <span id="cart-nacional-cnt">17,677</span> cuentas 
+                                <span id="cart-nacional-pct" style="color: var(--cyan); font-weight: 800;">(27.5%)</span>
+                            </div>
+                        </div>
+                        <!-- Pictograma de Personas -->
+                        <div class="pictogram-container" id="picto-nacional"><span class="picto-user active-nacional"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-nacional"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-nacional"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-nacional"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-nacional"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user active-nacional"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span></div>
+                    </div>
+
+                    <!-- Tarifa Plana -->
+                    <div class="operator-row">
+                        <div class="operator-meta">
+                            <div class="operator-brand">
+                                <div class="op-dot plana-dot"></div>
+                                <span>Tarifa Plana Nacional IP</span>
+                            </div>
+                            <div class="operator-stats-text">
+                                <span id="cart-plana-cnt">2,843</span> cuentas 
+                                <span id="cart-plana-pct" style="color: var(--blue-vibrant); font-weight: 800;">(4.4%)</span>
+                            </div>
+                        </div>
+                        <!-- Pictograma de Personas -->
+                        <div class="pictogram-container" id="picto-plana"><span class="picto-user active-plana"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="picto-user inactive"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" size="15" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección 3: Distribución por Minutos por Planes -->
             <section class="section-card">
                 <div class="card-title-row">
                     <div class="card-header-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layers" aria-hidden="true" size="20" class="lucide lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg>
                     </div>
                     <div>
-                        <h3 class="card-title-main">Distribución por Planes</h3>
-                        <p class="card-title-sub">Volumen de minutos y clientes segmentado por plan contratado</p>
+                        <h3 class="card-title-main">Distribución por Minutos por Planes</h3>
+                        <p class="card-title-sub">Volumen de minutos y llamadas segmentado por plan contratado</p>
                     </div>
                 </div>
 
@@ -1350,13 +511,13 @@
                                 <div class="op-dot consumo-dot"></div>
                                 <span>Plan x Consumo IP</span>
                             </div>
-                            <div class="operator-stats-text"><span id="op-consumo-min">4.99M</span> min <span id="op-consumo-pct">(60.1%)</span></div>
+                            <div class="operator-stats-text"><span id="op-consumo-min">4.99M</span> min <span id="op-consumo-pct">(60.0%)</span></div>
                         </div>
                         <div style="font-size: 11px; color: var(--gray-sub); margin-bottom: 2px;">
-                            Clientes: <span id="op-consumo-cli" style="color: var(--white); font-weight: 600;">123,870</span>
+                            Llamadas: <span id="op-consumo-cli" style="color: var(--white); font-weight: 600;">123,870</span> <span id="op-consumo-cli-pct" style="color: var(--cyan); font-weight: 700; margin-left: 4px;">(64.4%)</span>
                         </div>
                         <div class="progress-track-v2">
-                            <div class="progress-fill-v2 consumo-fill" id="fill-consumo" style="width: 60.1%;"></div>
+                            <div class="progress-fill-v2 consumo-fill" id="fill-consumo" style="width: 60%;"></div>
                         </div>
                     </div>
 
@@ -1367,13 +528,13 @@
                                 <div class="op-dot nacional-dot"></div>
                                 <span>Plan Nacional IP</span>
                             </div>
-                            <div class="operator-stats-text"><span id="op-nacional-min">2.44M</span> min <span id="op-nacional-pct">(29.37%)</span></div>
+                            <div class="operator-stats-text"><span id="op-nacional-min">2.44M</span> min <span id="op-nacional-pct">(29.35%)</span></div>
                         </div>
                         <div style="font-size: 11px; color: var(--gray-sub); margin-bottom: 2px;">
-                            Clientes: <span id="op-nacional-cli" style="color: var(--white); font-weight: 600;">55,556</span>
+                            Llamadas: <span id="op-nacional-cli" style="color: var(--white); font-weight: 600;">55,556</span> <span id="op-nacional-cli-pct" style="color: var(--cyan); font-weight: 700; margin-left: 4px;">(28.9%)</span>
                         </div>
                         <div class="progress-track-v2">
-                            <div class="progress-fill-v2 nacional-fill" id="fill-nacional" style="width: 29.37%;"></div>
+                            <div class="progress-fill-v2 nacional-fill" id="fill-nacional" style="width: 29.35%;"></div>
                         </div>
                     </div>
 
@@ -1387,7 +548,7 @@
                             <div class="operator-stats-text"><span id="op-plana-min">883.5K</span> min <span id="op-plana-pct">(10.64%)</span></div>
                         </div>
                         <div style="font-size: 11px; color: var(--gray-sub); margin-bottom: 2px;">
-                            Clientes: <span id="op-plana-cli" style="color: var(--white); font-weight: 600;">12,908</span>
+                            Llamadas: <span id="op-plana-cli" style="color: var(--white); font-weight: 600;">12,908</span> <span id="op-plana-cli-pct" style="color: var(--cyan); font-weight: 700; margin-left: 4px;">(6.7%)</span>
                         </div>
                         <div class="progress-track-v2">
                             <div class="progress-fill-v2 plana-fill" id="fill-plana" style="width: 10.64%;"></div>
@@ -1453,7 +614,7 @@
             <section class="storytelling-panel">
                 <div class="story-header-row">
                     <div class="story-title-main">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="brain-circuit" aria-hidden="true" size="20" class="lucide lucide-brain-circuit"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path d="M9 13a4.5 4.5 0 0 0 3-4"></path><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"></path><path d="M3.477 10.896a4 4 0 0 1 .585-.396"></path><path d="M6 18a4 4 0 0 1-1.967-.516"></path><path d="M12 13h4"></path><path d="M12 18h6a2 2 0 0 1 2 2v1"></path><path d="M12 8h8"></path><path d="M16 8V5a2 2 0 0 1 2-2"></path><circle cx="16" cy="13" r=".5"></circle><circle cx="18" cy="3" r=".5"></circle><circle cx="20" cy="21" r=".5"></circle><circle cx="20" cy="8" r=".5"></circle></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="brain-circuit" aria-hidden="true" size="20" class="lucide lucide-brain-circuit"><path d="M12 13h4"></path><path d="M12 18h6a2 2 0 012 2v1"></path><path d="M12 8h8"></path><path d="M12 9a4.17 4.17 0 01-3 4"></path><path d="M16 8V5a2 2 0 012-2"></path><path d="M6 18a4 4 0 01-2-7.465"></path><path d="M6.004 5.125a4 4 0 00-2.526 5.77"></path><path d="M6.294 6.294A3 3 0 1112 5v13a4 4 0 11-7.967-.518"></path><circle cx="16" cy="13" r="0.5" fill="currentColor"></circle><circle cx="18" cy="3" r="0.5" fill="currentColor"></circle><circle cx="20" cy="21" r="0.5" fill="currentColor"></circle><circle cx="20" cy="8" r="0.5" fill="currentColor"></circle></svg>
                         Hallazgos &amp; Recomendaciones
                     </div>
                 </div>
@@ -1464,7 +625,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" aria-hidden="true" size="14" style="color: var(--magenta);" class="lucide lucide-zap"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"></path></svg>
                             <span id="ins-title-1">Comportamiento de Tráfico (Feb)</span>
                         </div>
-                        <div class="story-item-body" id="insight-1">Se registró un tráfico pico de <strong>1.73M</strong> minutos en Feb, acumulando <strong>8.30M</strong> minutos en el período. <br><br><strong style="color: var(--white);">💡 Recomendación:</strong> Implementar programas de fidelización para estabilizar el consumo mensual en periodos subsiguientes.</div>
+                        <div class="story-item-body" id="insight-1">Se registró un tráfico pico de <strong>1.73M</strong> minutos en Feb, acumulando <strong>8.31M</strong> minutos en el período. <br><br><strong style="color: var(--white);">💡 Recomendación:</strong> Implementar programas de fidelización para estabilizar el consumo mensual en periodos subsiguientes.</div>
                     </div>
 
                     <div class="story-insight-item">
@@ -1472,7 +633,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="target" aria-hidden="true" size="14" style="color: var(--cyan);" class="lucide lucide-target"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                             <span id="ins-title-2">Oportunidad en Tráfico Móvil</span>
                         </div>
-                        <div class="story-item-body" id="insight-2">El tráfico hacia <strong>Celular (3.51M)</strong> es altamente significativo. Además, el 64.4% de clientes elige el <strong>Plan x Consumo</strong>.<br><br><strong style="color: var(--white);">💡 Recomendación:</strong> Crear paquetes adicionales de minutos móviles como add-on al Plan x Consumo.</div>
+                        <div class="story-item-body" id="insight-2">El tráfico hacia <strong>Celular (3.51M)</strong> es altamente significativo. Además, el 64.4% de las llamadas se efectúan bajo el <strong>Plan x Consumo</strong>.<br><br><strong style="color: var(--white);">💡 Recomendación:</strong> Crear paquetes adicionales de minutos móviles como add-on al Plan x Consumo.</div>
                     </div>
                 </div>
             </section>
@@ -1484,7 +645,7 @@
                     <div class="footer-credit-line" id="val-footer-credit-2">Colaboración y fuente de datos: Métodos Cuantitativos y Base de Datos -Gerencia Inteligencia y Servicios de Mercadeo.</div>
                     <!-- Nueva línea: Fecha de elaboración editable -->
                     <div class="footer-credit-line" id="val-footer-date-line">
-                        Fecha de elaboración: <strong id="val-footer-date">25 de Septiembre de 2026</strong>.
+                        Fecha de elaboración: <strong id="val-footer-date">20 de octubre de 2026</strong>.
                     </div>
                 </div>
             </footer>
